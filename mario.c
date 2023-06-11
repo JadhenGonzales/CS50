@@ -15,8 +15,6 @@ int main(void)
     {
     print_space(row);
     print_block(height, row);
-    print_space(row);
-    printf("\n");
     }
 }
 
@@ -56,4 +54,5 @@ void print_block(int h, int r)
     {
     printf("#");
     }
+    printf("\n");
 }

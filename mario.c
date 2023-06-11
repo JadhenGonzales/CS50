@@ -13,8 +13,8 @@ int main(void)
     // print the pyramids
     for (int row = height; row > 0; row--)
     {
-    print_space(row);
-    print_block(height, row);
+        print_space(row);
+        print_block(height, row);
     }
 }
 
@@ -22,6 +22,7 @@ int main(void)
 
 int get_height(void)
 {
+    // get height between 1 and 8
     int n;
     do
     {
@@ -33,11 +34,12 @@ int get_height(void)
 
 
 
-void print_space(int l)
+void print_space(int r)
 {
-    for (int s = l-1; s > 0; s--)
+    // print spaces relative to row number
+    for (int s = r - 1; s > 0; s--)
     {
-    printf(" ");
+        printf(" ");
     }
 }
 
@@ -45,14 +47,18 @@ void print_space(int l)
 
 void print_block(int h, int r)
 {
-    for (int b = r-1; b < h; b++)
+    // print first batch of hashtags based on row number
+    for (int b = r - 1 ; b < h; b++)
     {
-    printf("#");
+        printf("#");
     }
+
     printf("  ");
-    for (int b = r-1; b < h; b++)
+
+    // print second batch of hastags
+    for (int b = r - 1; b < h; b++)
     {
-    printf("#");
+        printf("#");
     }
     printf("\n");
 }

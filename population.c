@@ -25,8 +25,8 @@ int main(void)
     int t = 0;
     do
     {
-        t++;
         p = p + (p / 3) - (p / 4);
+        t++;
     }
     while (p < f);
 

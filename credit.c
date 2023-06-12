@@ -11,10 +11,11 @@ int main(void)
 
     // check for possible card type
     string card_type = check_type(card_number);
-    printf("%s\n", card_type);
 
     // check for card validity
     card_type = check_validity(card_number, card_type);
+
+    printf("%s\n", card_type);
 }
 
 
@@ -39,7 +40,7 @@ string check_type(long n)
     // check for AMERICAN EXPRESS 15-digit, start with 34 or 37
     else if (a == 34 || a == 37)
     {
-        s = "AMERICAN EXPRESS";
+        s = "AMEX";
     }
     else
     {

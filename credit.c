@@ -54,22 +54,27 @@ string check_type(long n)
 string check_validity(long n, string c)
 {
     long d; // variable for each of the digits
-    int sum = 0;
-    int t = 1;
+    long sum = 0;
     for (int i = 0; i < 16; i++)
     {
-        d = (n / t) % 10;
+        d = n % 10;
         if (i % 2 == 1) // checks if i is an odd number
         {
-            sum = sum + (2 * d);
+            if (2 * d > 9) // checks if 2*d needs to be separated
+            {
+                sum = sum + (2 * d / 10) + (2 * d % 10);
+            }
+            else
+            {
+                sum = sum + (2 * d);
+            }
         }
         else // if i is even we multiply by 2
         {
             sum = sum + d;
         }
-        t = t * 10; // makes sure that we get the next digit for the next iteration
+        n = n / 10; // makes sure that we get the next digit for the next iteration
     }
-
     if (sum % 10 != 0)
     {
         c = "INVALID";

@@ -14,7 +14,7 @@ int main(void)
     string text = get_string("Text: ");
     // Coleman-Liau index
     // printf("Letters: %i\nWords: %i\nSentences: %i\n", count_letters(text), count_words(text), count_sentences(text));
-    int index = 0.0588 * (count_letters(text) * 100 / count_words(text)) - 0.296 * (count_sentences(text) * 100 / count_words(text)) - 15.8;
+    int index = (0.0588 * (count_letters(text) * 100.0 / count_words(text))) - (0.296 * (count_sentences(text) * 100.0 / count_words(text))) - 15.8;
     if (index < 1)
     {
         printf("Before Grade 1\n");
@@ -25,7 +25,8 @@ int main(void)
     }
     else
     {
-        printf("Grade %f\n", round(index));
+        index = round(index);
+        printf("Grade %i\n", index);
     }
 
 }

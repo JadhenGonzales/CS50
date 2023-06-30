@@ -4,6 +4,8 @@
 #include <string.h>
 
 string encrypt(string key, string plaintext);
+int check_alphabetic(string key);
+int check_repeating(string key);
 
 int main(int argc, string argv[])
 {
@@ -15,10 +17,10 @@ int main(int argc, string argv[])
     }
     else
     {
-        // Check key length.
-        if (strlen(argv[1]) != 26)
+        // Check key length, alphabetic, non-repeating
+        if (strlen(argv[1]) != 26 || check_alphabetic(argv[1]) || check_repeating(argv[1]))
         {
-            printf("Key must contain 26 characters.\n");
+            printf("Key must contain 26 non-repeating alphabetic characters.\n");
             return 1;
         }
         else
@@ -29,6 +31,33 @@ int main(int argc, string argv[])
             printf("ciphertext: %s\n", encrypt(argv[1], plaintext));
         }
     }
+}
+
+int check_alphabetic(string key)
+{
+    int non_alphabetic = 0;
+    for (int i = 0, n = strlen(key); i < n; i++)
+    {
+        if (!isalpha(key[i]))
+        {
+            non_alphabetic = 1;
+        }
+    }
+    return non_alphabetic;
+}
+
+int check_repeating(string key)
+{
+    int repeating = 0;
+    for (int i = 0, n = strlen(key); i < n; i++)
+    {
+        for (int j = i + 1, m = n; j < m; j++)
+        if (key[i] == key[j])
+        {
+            repeating = 1;
+        }
+    }
+    return repeating;
 }
 
 string encrypt(string key, string plaintext)
@@ -44,7 +73,6 @@ string encrypt(string key, string plaintext)
         {
             ciphertext[i] = tolower(key[plaintext[i] - 97]);
         }
-
     }
     return ciphertext;
 }

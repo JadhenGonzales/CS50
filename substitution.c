@@ -52,7 +52,7 @@ int check_repeating(string key)
     for (int i = 0, n = strlen(key); i < n; i++)
     {
         for (int j = i + 1, m = n; j < m; j++)
-        if (key[i] == key[j])
+        if (toupper(key[i]) == toupper(key[j]))
         {
             repeating = 1;
         }

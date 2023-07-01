@@ -153,7 +153,7 @@ int check_word(string guess, int wordsize, int status[], string choice)
 
     for (int guess_letter = 0; guess_letter < wordsize; guess_letter++)
     {
-        for (int choice_letter =0; choice_letter < wordsize; choice_letter++)
+        for (int choice_letter = 0; choice_letter < wordsize; choice_letter++)
         {
             if (guess[guess_letter] == choice[choice_letter])
             {

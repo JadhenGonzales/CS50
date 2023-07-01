@@ -25,15 +25,20 @@ int main(void)
 // TODO: Complete the Boolean function below
 bool valid(string password)
 {
-    bool contains_alphabetic = false;
+    bool contains_uppercase = false;
+    bool contains_lowercase = false;
     bool contains_digit = false;
     bool contains_symbol = false;
-    
+
     for (int i = 0, n = strlen(password); i < n; i++)
     {
-        if (isalpha(password[i]))
+        if (isupper(password[i]))
         {
-            contains_alphabetic = true;
+            contains_uppercase = true;
+        }
+        else if (islower(password[i]))
+        {
+            contains_lowercase = true;
         }
         else if (isdigit(password[i]))
         {
@@ -44,9 +49,12 @@ bool valid(string password)
             contains_symbol = true;
         }
     }
-    if (contains_alphabetic && contains_digit && contains_symbol)
+    if (contains_uppercase && contains_lowercase && contains_digit && contains_symbol)
     {
         return true;
     }
-    return false;
+    else
+    {
+        return false;
+    }
 }

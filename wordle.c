@@ -131,7 +131,7 @@ string get_guess(int wordsize)
     {
         guess = get_string("Input a %i-letter word: ", wordsize);
     }
-    while (strlen(guess) == wordsize);
+    while (strlen(guess) != wordsize);
 
     return guess;
 }

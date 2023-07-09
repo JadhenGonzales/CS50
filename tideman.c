@@ -121,7 +121,7 @@ void record_preferences(int ranks[])
     // Loops over all preferences, adds 1 for every pairing
     for (int i = 0, n = candidate_count; i < n; i++)
     {
-        for (int j = i; j < n; j++)
+        for (int j = i + 1; j < n; j++)
         {
             preferences[ranks[i]][ranks[j]] += 1;
         }

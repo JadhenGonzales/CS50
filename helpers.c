@@ -44,7 +44,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     RGBTRIPLE temp_img[height][width];
     int box_size = 3;
-    int sum[3];
+    float sum[3];
     int values;
 
     for (int i = 0; i < height; i++)
@@ -74,9 +74,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
             // average and place int temp_img
 
-            temp_img[i][j].rgbtRed = round(sum[0] / values + 0.0);
-            temp_img[i][j].rgbtGreen = round(sum[1] / values + 0.0);
-            temp_img[i][j].rgbtBlue = round(sum[2] / values + 0.0);
+            temp_img[i][j].rgbtRed = round(sum[0] / values);
+            temp_img[i][j].rgbtGreen = round(sum[1] / values);
+            temp_img[i][j].rgbtBlue = round(sum[2] / values);
         }
     }
 

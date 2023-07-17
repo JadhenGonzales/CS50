@@ -77,9 +77,11 @@ int main(int argc, char *argv[])
             fwrite(buffer, sizeof(BYTE), block_size, outfile);
         }
     }
+
     free(buffer);
     free(file_name);
     fclose(infile);
+    fclose(outfile);
     return 0;
 }
 

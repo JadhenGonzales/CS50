@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
         {
             fclose(outfile);
             writing = false;
+            file_number += 1;
         }
 
         if (writing && !new_jpeg)
@@ -63,7 +64,6 @@ int main(int argc, char *argv[])
         if (!writing && new_jpeg)
         {
             writing = true;
-            file_number += 1;
             sprintf(file_name, "%03i.jpg", file_number);
 
             outfile = fopen(file_name, "w");

@@ -40,10 +40,10 @@ int main(int argc, char *argv[])
 
     // Loop reading per 512 BYTES (placing them in buffer)
     // If a new start of jpeg is found
-        // Start writing to a file named ###.jpg
-        // If next BYTE does not contain jpg markers, continue writing
-        // Else stop
-        // exit ###.jpg
+    // Start writing to a file named ###.jpg
+    // If next BYTE does not contain jpg markers, continue writing
+    // Else stop
+    // exit ###.jpg
 
     while (fread(buffer, sizeof(BYTE), block_size, infile) == block_size)
     {

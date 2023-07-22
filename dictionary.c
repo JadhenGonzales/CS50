@@ -88,7 +88,7 @@ bool load(const char *dictionary)
         }
         else if (letter > 0)
         {
-            new_word->word[letter + 1] = '\0';
+            new_word->word[letter] = '\0';
             letter = 0;
             dictionary_words++;
 

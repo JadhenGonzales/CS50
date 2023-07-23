@@ -147,11 +147,11 @@ bool free_list(node *l)
 
     else
     {
-    // Recursively free the rest of the list
-    free_list(l->next);
+        // Recursively free the rest of the list
+        free_list(l->next);
 
-    // Free the current node
-    free(l);
+        // Free the current node
+        free(l);
     }
     return true;
 }

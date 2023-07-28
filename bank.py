@@ -1,4 +1,4 @@
-greeting = input()
+greeting = input("Greeting: ")
 
 if "hello" in greeting.lower():
     print("$0")

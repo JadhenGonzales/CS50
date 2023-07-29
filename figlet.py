@@ -14,6 +14,9 @@ def main():
             print("Usage: python figlet.py (-f or --font) (font name) or no arguments for random font")
             sys.exit(1)
         font_choice = sys.argv[2]
+        if font_choice not in figlet.getFonts():
+            print("Usage: python figlet.py (-f or --font) (font name) or no arguments for random font")
+            sys.exit(1)
 
     if len(sys.argv) == 1:
         font_choice = random.choice(figlet.getFonts())

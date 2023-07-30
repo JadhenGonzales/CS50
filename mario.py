@@ -1,5 +1,6 @@
 # TODO
 
+
 def main():
     size = get_int("Height: ")
     print_pyramid(size)
@@ -20,9 +21,7 @@ def get_int(text):
 
 def print_pyramid(size):
     for i in range(1, size + 1):
-        print(
-            f" " * (size - i), "#" * i, "  ", "#" * i, sep=""
-        )
+        print(f" " * (size - i), "#" * i, "  ", "#" * i, sep="")
 
 
 if __name__ == "__main__":

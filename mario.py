@@ -12,7 +12,7 @@ def get_int(text):
         except ValueError:
             pass
         else:
-            if value < 1 or value > 9:
+            if value < 1 or value > 8:
                 pass
             else:
                 return value

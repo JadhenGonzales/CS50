@@ -4,7 +4,6 @@ import math
 
 
 def main():
-
     card_number = cs50.get_int("Number: ")
     card_type = check_type(str(card_number))
 
@@ -16,9 +15,9 @@ def main():
 
 def check_type(card_number):
     # RegEx of the 3 different card types
-    amex = re.match('34\d{13,13}|37\d{13,13}', card_number)
-    mastercard = re.match('5[1-5]\d{14,14}', card_number)
-    visa = re.match('4\d{12,12}|4\d{15,15}', card_number)
+    amex = re.match("34\d{13,13}|37\d{13,13}", card_number)
+    mastercard = re.match("5[1-5]\d{14,14}", card_number)
+    visa = re.match("4\d{12,12}|4\d{15,15}", card_number)
 
     if amex:
         card_type = "AMEX"
@@ -42,7 +41,7 @@ def valid(card_number):
             sum += d
         else:
             if (d * 2) < 10:
-                sum += (d * 2)
+                sum += d * 2
             else:
                 sum += ((d * 2) % 10) + 1
         # iterate to the second to the last digit
@@ -52,6 +51,7 @@ def valid(card_number):
         return True
     else:
         return False
+
 
 if __name__ == "__main__":
     main()

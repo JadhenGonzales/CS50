@@ -10,11 +10,15 @@ def main():
     words = len(re.findall(r"[a-z'-]+", text, flags=re.I))
     sentences = len(re.findall(r"[a-z ]+[.?!]", text))
 
-    index = (0.0588 * (letters * 100.0 / words)) - (0.296 * (sentences * 100.0 / words)) - 15.8
+    index = (
+        (0.0588 * (letters * 100.0 / words))
+        - (0.296 * (sentences * 100.0 / words))
+        - 15.8
+    )
 
     if index < 1:
         print("Before Grade 1")
-    elif index >=16:
+    elif index >= 16:
         print("Grade 16+")
     else:
         index = round(index)

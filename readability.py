@@ -7,7 +7,7 @@ def main():
     text = cs50.get_string("Text: ")
     # Coleman-Liau index
     letters = len(re.findall(r"[a-z]", text, flags=re.I))
-    words = len(re.findall(r"[a-z']+", text, flags=re.I))
+    words = len(re.findall(r"[a-z'-]+", text, flags=re.I))
     sentences = len(re.findall(r"[a-z ]+[.?!]", text))
 
     index = (0.0588 * (letters * 100.0 / words)) - (0.296 * (sentences * 100.0 / words)) - 15.8

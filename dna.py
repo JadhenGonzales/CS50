@@ -34,7 +34,10 @@ def main():
         repeat_values.append(longest_match(sequence, repeat))
 
     # TODO: Check database for matching profiles
-    print(data[tuple(repeat_values)])
+    try:
+        print(data[tuple(repeat_values)])
+    except KeyError:
+        print("No match")
     return
 
 

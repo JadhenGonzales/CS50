@@ -17,7 +17,7 @@ def main():
     elif index >=16:
         print("Grade 16+")
     else:
-        index = int(index);
+        index = round(index)
         print(f"Grade {index}")
 
 if __name__ == "__main__":

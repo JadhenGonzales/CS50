@@ -1,0 +1,8 @@
+danceability is 0.7
+energy is 0.6
+valence is 0.5
+
+I would characterize the listener as having a purple aura, having relatively high danceability and energy.
+
+This just uses the top 100 songs of a listener over a given year. I would rather calculate the aura per given listening session then
+calculate the prevalent aura over the year.

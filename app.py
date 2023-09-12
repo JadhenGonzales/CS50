@@ -95,7 +95,7 @@ def buy():
                    - value)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", current_balance - value, session.get("user_id"))
 
-        return redirect("/")
+        return redirect("/buy")
 
     # User reached route via GET
     else:

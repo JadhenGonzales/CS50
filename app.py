@@ -69,7 +69,7 @@ def buy():
 
         # Return an error for invalid symbol
         if not quoted_stock:
-            return apology("code_error", 402)
+            return apology("code_error", 400)
 
         # Return an error for invalid number of shares
         try:
@@ -201,7 +201,7 @@ def quote():
 
         # Return an error for invalid symbol
         if not quoted_stock:
-            return apology("code_error.html", 402)
+            return apology("code_error.html", 400)
 
         return render_template("quoted.html", quoted_stock=quoted_stock)
 
@@ -222,7 +222,7 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # Ensure username is unique
         username = db.execute("SELECT username FROM users WHERE username = ?", request.form.get("username"))
@@ -231,11 +231,11 @@ def register():
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
 
         # Ensure confirmation is same as password was submitted
         elif request.form.get("confirmation") != request.form.get("password"):
-            return apology("Both passwords must match", 403)
+            return apology("Both passwords must match", 400)
 
         # Insert into users
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), generate_password_hash(request.form.get("password")))

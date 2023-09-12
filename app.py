@@ -53,9 +53,9 @@ def index():
 
     # get user balance and total value
     current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
-    user_value = sum(stock['total'] for stock in shares) + current_balance
+    total = sum(stock['total'] for stock in shares) + current_balance
 
-    return render_template("portfolio.html", shares=shares, cash=current_balance, total=user_value)
+    return render_template("portfolio.html", shares=shares, cash=current_balance, total=total)
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
@@ -69,7 +69,7 @@ def buy():
 
         # Return an error for invalid symbol
         if not quoted_stock:
-            return apology("code_error", 402)
+            return apology("code_error", 400)
 
         # Return an error for invalid number of shares
         try:

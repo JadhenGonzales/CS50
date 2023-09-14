@@ -55,7 +55,7 @@ def index():
     current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
     total = sum(stock['total'] for stock in shares) + current_balance
 
-    return render_template("index.html", shares=shares, cash=current_balance, total=total)
+    return render_template("index2.html", shares=shares, cash=current_balance, total=total)
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required

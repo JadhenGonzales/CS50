@@ -52,7 +52,7 @@ def index():
 
     # get user balance and total value
     current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
-    total = sum + current_balance
+    total = sum + int(current_balance)
 
     return render_template("index2.html", portfolio=portfolio, cash=current_balance, total=total)
 

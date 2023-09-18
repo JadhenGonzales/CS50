@@ -88,7 +88,12 @@ def buy():
             return apology("Insufficient Cash")
 
         # Insert into transactions table and deduct from cash
-
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, value) VALUES (?, ?, ?, ?)",
+                   session.get("user_id"),
+                   quoted_stock['name'],
+                   shares,
+                   - value)
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", current_balance - value, session.get("user_id"))
 
         return redirect("/")
 

@@ -44,14 +44,16 @@ def index():
                          GROUP BY symbol""", session.get("user_id"))
 
     # look up current prices for stocks
+    sum = 0
     for stock in portfolio:
         if stock['symbol'] != "DEPOSIT":
             stock['value'] = lookup(stock['symbol'])['price']
             stock['total'] = stock['shares'] * stock['value']
+            sum += stock['total']
 
     # get user balance and total value
     current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
-    total = sum(stock['total'] for stock in portfolio) + current_balance
+    total = sum + current_balance
 
     return render_template("index2.html", portfolio=portfolio, cash=current_balance, total=total)
 

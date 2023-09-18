@@ -47,7 +47,7 @@ def index():
     sum = 0
     for stock in portfolio:
         if lookup(stock['symbol']):
-            stock['value'] = lookup(stock['symbol'])['price']
+            stock['value'] = float(lookup(stock['symbol'])['price'])
             stock['total'] = stock['shares'] * lookup(stock['symbol'])['price']
             sum += stock['total']
 

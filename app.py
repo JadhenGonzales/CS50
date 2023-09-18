@@ -65,7 +65,31 @@ def buy():
     # User reached route via POST
     if request.method == "POST":
 
-        
+        quoted_stock = lookup(request.form.get("symbol"))
+
+        # Return an error for invalid symbol
+        if not quoted_stock:
+            return apology("code_error", 400)
+
+        # Return an error for invalid number of shares
+        try:
+            shares = int(request.form.get("shares"))
+        except ValueError:
+            return apology("shares must be a positive integer")
+        else:
+            if shares < 0:
+                return apology("shares must be a positive integer")
+
+        value = shares * quoted_stock['price']
+        current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
+
+        # Return an error if insufficient balance
+        if value > current_balance:
+            return apology("Insufficient Cash")
+
+        # Insert into transactions table and deduct from cash
+
+
         return redirect("/")
 
     # User reached route via GET

@@ -90,7 +90,7 @@ def buy():
         # Insert into transactions table and deduct from cash
         db.execute("INSERT INTO transactions (user_id, symbol, shares, value) VALUES (?, ?, ?, ?)",
                    session.get("user_id"),
-                   quoted_stock['name'],
+                   quoted_stock['symbol'],
                    shares,
                    - value)
         db.execute("UPDATE users SET cash = ? WHERE id = ?", current_balance - value, session.get("user_id"))

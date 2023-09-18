@@ -19,8 +19,8 @@
                 <tr>
                     <th sclass="text-start"> {{ stock['symbol'] }} </th>
                     <td class="text-end"> {{ stock['SUM(shares)'] }} </td>
-                    <td class="text-end"> {{ stock['value'] | usd}} </td>
-                    <td class="text-end"> {{ 112.00 | usd}} </td>
+                    <td class="text-end"> {{ 112 | usd}} </td>
+                    <td class="text-end"> {{ stock['total'] | usd}} </td>
                 </tr>
             {% endfor %}
         </tbody>

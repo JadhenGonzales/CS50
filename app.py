@@ -289,4 +289,9 @@ def sell():
 
     # User reached route via GET
     else:
-        return render_template("sell.html")
+        portfolio = db.execute("""SELECT symbol
+                            FROM transactions
+                        WHERE user_id = ? AND NOT symbol = "DEPOSIT"
+                        GROUP BY symbol""", session.get("user_id"))
+
+        return render_template("sell.html", portfolio=portfolio)

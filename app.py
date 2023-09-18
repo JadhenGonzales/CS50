@@ -46,8 +46,8 @@ def index():
     # look up current prices for stocks
     sum = 0
     for stock in portfolio:
-        stock['value'] = int(lookup(stock['symbol'])['price'])
-        stock['total'] = int(stock['shares']) * stock['value']
+        stock['value'] = lookup(stock['symbol'])['price']
+        stock['total'] = stock['shares'] * stock['value']
         sum += stock['total']
 
     # get user balance and total value

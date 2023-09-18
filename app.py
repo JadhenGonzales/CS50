@@ -34,7 +34,26 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    return render_template("index2.html")
+    """Show portfolio of stocks"""
+
+    # dictionary list of stocks, shares, and current values
+    portfolio = db.execute("""SELECT symbol,
+                                  SUM(shares) AS shares
+                             FROM transactions
+                            WHERE user_id = ? AND NOT symbol = "DEPOSIT"
+                         GROUP BY symbol""", session.get("user_id"))
+
+    # look up current prices for stocks
+    for stock in portfolio:
+        if stock['symbol'] != "DEPOSIT":
+            stock['value'] = lookup(stock['symbol'])['price']
+            stock['total'] = stock['shares'] * stock['value']
+
+    # get user balance and total value
+    current_balance = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))[0]['cash']
+    total = sum(stock['total'] for stock in portfolio) + current_balance
+
+    return render_template("index2.html", portfolio=portfolio, cash=current_balance, total=total)
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required

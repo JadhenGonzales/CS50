@@ -46,7 +46,7 @@ def index():
     # look up current prices for stocks
     sum = 0
     for stock in portfolio:
-        if lookup(stock['symbol']):
+        if lookup(stock['symbol']) is not None:
             stock['value'] = float(lookup(stock['symbol'])['price'])
             stock['total'] = stock['shares'] * lookup(stock['symbol'])['price']
             sum += stock['total']

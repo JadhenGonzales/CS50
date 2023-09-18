@@ -68,7 +68,7 @@ def buy():
         quoted_stock = lookup(request.form.get("symbol"))
 
         # Return an error for invalid symbol
-        if not quoted_stock:
+        if not quoted_stock or quoted_stock is None:
             return apology("code_error", 400)
 
         # Return an error for invalid number of shares

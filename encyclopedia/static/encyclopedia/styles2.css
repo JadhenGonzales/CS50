@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: white;
+    background-color:#e1f1fd;
 }
 
 code {
@@ -15,6 +15,7 @@ h1 {
 
 .main {
     padding: 10px;
+    padding-left: 30px;
 }
 
 .search {
@@ -24,11 +25,18 @@ h1 {
 }
 
 .sidebar {
-    background-color: #f0f0f0;
+    background-color: #c1d8f0;
     height: 100vh;
     padding: 20px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
+    color: #4663ac;
+    font-family: 'Verdana', sans-serif;
+    font-weight: 700;
+}
+
+a {
+    color: #4663ac;
 }

@@ -2,6 +2,12 @@ import re
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django import forms
+
+
+class EntryForm(forms.Form):
+    title = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class": "form-control form-control-lg border border-primary", "placeholder": "Page Title"}))
+    description = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control border border-primary", "rows": "20", "placeholder": "Page content. Use proper markdown syntax"}))
 
 
 def list_entries():

@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ post.item.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid p-0">
+        {% if post.winner %}
+            <div class="row alert alert-info m-1">
+                {% if user.is_authenticated and user == post.winner %}
+                    You have won this listing 
+                {% else %}
+                    This listing is closed.
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="row justify-content-center m-0">
+            <div class="col">
+                {% include "reusables/item_info.html" with post=post %}
+
+                {% include "reusables/comments.html" with commentform=commentform comments=comments %}
+            </div>
+
+            <div class="col-md-3 pt-3">
+                {% include "reusables/bids.html" with bidform=bidform bids=bids %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

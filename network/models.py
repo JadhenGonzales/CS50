@@ -6,7 +6,9 @@ from django.utils import timezone
 class User(AbstractUser):
     pass
 
+
 class Profile(models.Model):
+    # Extension to User class
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE

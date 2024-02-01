@@ -7,9 +7,9 @@ class PostTestCase(TestCase):
     def setUp(self):
         # Create test users
         user1 = User.objects.create_user(username='testuser1', password='12345@Test')
-        u1 = Profile.objects.create(user=user1)
+        u1 = Profile.objects.get(user=user1)
         user2 = User.objects.create_user(username='testuser2', password='12345@Test')
-        u2 = Profile.objects.create(user=user2)
+        u2 = Profile.objects.get(user=user2)
 
         # Create test posts
         Post.objects.create(

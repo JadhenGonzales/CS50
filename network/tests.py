@@ -1,26 +1,29 @@
-from django.test import TestCase
+from django.test import Client, TestCase
+from django.urls import reverse
 from .models import User, Profile, Post
 
 # Create your tests here.
-class PostTestCase(TestCase):
+class ViewsTestCase(TestCase):
 
     def setUp(self):
         # Create test users
-        user1 = User.objects.create_user(username='testuser1', password='12345@Test')
-        u1 = Profile.objects.get(user=user1)
-        user2 = User.objects.create_user(username='testuser2', password='12345@Test')
-        u2 = Profile.objects.get(user=user2)
+        self.user = User.objects.create_user(username='testuser1', email='test@example.com', password='12345@Test')
 
-        # Create test posts
-        Post.objects.create(
-            owner=u1,
-            text='test post under testuser1',
-            )
+    def testLogin(self):
+        """Test user login"""
+        c = Client()
+        response = c.login(username='testuser1', password='12345@Test')
+        self.assertEqual(response, True)
 
-    def test_add_post(self):
-        """Check for post"""
-        queried_post = Post.objects.first()
+"""
+TO DOs
+https://docs.djangoproject.com/en/5.0/topics/testing/overview/
+https://docs.djangoproject.com/en/5.0/topics/testing/tools/
+https://docs.djangoproject.com/en/5.0/topics/testing/advanced/#django.test.RequestFactory
+https://docs.djangoproject.com/en/5.0/topics/testing/tools/#liveservertestcase
 
-        self.assertEqual(queried_post.text, 'test post under testuser1')
+Test all views logged out
+Test all views logged in
+Test Post submission
 
-
+"""

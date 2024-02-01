@@ -9,24 +9,27 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='profile',
     )
-    followers = models.ManyToManyField(
+    following = models.ManyToManyField(
         "self",
         symmetrical=False, # Following someone does not mean that they also follow you
+        related_name='followers'
     )
 
 class Post(models.Model):
     owner = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name="Posts",
+        related_name='posts',
     )
     text = models.CharField(
         max_length=500,
     )
     likes = models.ManyToManyField(
         Profile,
+        related_name='liked_posts',
     )
     datetime = models.DateTimeField(
         default=timezone.now

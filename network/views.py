@@ -1,14 +1,33 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, decorators, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Post
+from .forms import PostForm
 
 
 def index(request):
-    return render(request, "network/index.html")
+    return render(request, "network/index.html", {
+        "form": PostForm
+    })
+
+
+@decorators.login_required
+def create_post_view(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            c_form = form.cleaned_data
+            new_post = Post(
+                owner=request.user.profile,
+                text=c_form['post_content'],
+            )
+
+            new_post.save()
+    
+    return HttpResponseRedirect(reverse("index"))
 
 
 def login_view(request):

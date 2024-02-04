@@ -18,6 +18,9 @@ class Profile(models.Model):
         related_name='followers'
     )
 
+    def __str__(self):
+        return f'{self.user.username}'
+
 class Post(models.Model):
     owner = models.ForeignKey(
         Profile,
@@ -34,3 +37,6 @@ class Post(models.Model):
     datetime = models.DateTimeField(
         default=timezone.now
     )
+
+    def __str__(self):
+        return f'{self.owner}: {self.text}'

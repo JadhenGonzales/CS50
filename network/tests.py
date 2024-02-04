@@ -3,17 +3,15 @@ from django.urls import reverse
 from .models import User, Profile, Post
 
 # Create your tests here.
-class ViewsTestCase(TestCase):
+class Create_Profile_Signal_Test(TestCase):
 
-    def setUp(self):
-        # Create test users
+    def testCreateUser(self):
+        """Test profile creation upon user creation."""
         self.user = User.objects.create_user(username='testuser1', email='test@example.com', password='12345@Test')
+        self.profile = Profile.objects.get(user=self.user)
+        self.assertEqual(self.profile.user.username, self.user.username)
 
-    def testLogin(self):
-        """Test user login"""
-        c = Client()
-        response = c.login(username='testuser1', password='12345@Test')
-        self.assertEqual(response, True)
+
 
 """
 TO DOs

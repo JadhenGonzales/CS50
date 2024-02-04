@@ -24,7 +24,6 @@ def create_post_view(request):
                 owner=request.user.profile,
                 text=c_form['post_content'],
             )
-
             new_post.save()
     
     return HttpResponseRedirect(reverse("index"))

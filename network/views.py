@@ -44,17 +44,17 @@ def follow_profile(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     
     # Check for target profile ID and follow status.
-    # data.get('key') is used instead of dara['key'] to avoid key errors.
+    # data.get('key') is used instead of data['key'] to avoid key errors.
     data = json.loads(request.body)
-    target_profile = data.get("target_profile")
+    profile_id = data.get("profile_id")
     follow_status = data.get("follow_status")
-    if target_profile is None or follow_status is None:
+    if profile_id is None or follow_status is None:
         return JsonResponse({"error": "Incomplete submission"}, status=400)
     
     # Check if target profile exists
     try:
-        target_profile = Post.objects.get(pk=target_profile.id)
-    except Post.DoesNotExist:
+        target_profile = Profile.objects.get(pk=profile_id)
+    except Profile.DoesNotExist:
         return JsonResponse({"error": "Profile does not exist."}, status=400)
     
     # Check if user does not own the post
@@ -65,7 +65,7 @@ def follow_profile(request):
     if follow_status:
         target_profile.followers.add(request.user.profile)
         message = "Followed."
-    elif request.user.profile in target_profile.follower.all():
+    elif request.user.profile in target_profile.followers.all():
         target_profile.followers.remove(request.user.profile)
         message = "Unfollowed."
     else:
@@ -81,7 +81,7 @@ def like_post(request):
         return JsonResponse({"error": "POST request required."}, status=400)
 
     # Check for post ID and like status
-    # data.get('key') is used instead of dara['key'] to avoid key errors.
+    # data.get('key') is used instead of data['key'] to avoid key errors.
     data = json.loads(request.body)
     post_id = data.get("post_id")
     like_status = data.get("like_status")

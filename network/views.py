@@ -1,12 +1,13 @@
 import json
 
-from django.contrib.auth import authenticate, decorators, login, logout
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Profile, Post
 from .forms import PostForm
 
 
@@ -16,7 +17,7 @@ def index(request):
     })
 
 
-@decorators.login_required
+@login_required
 def create_post(request):
     # Creating a post must be via POST
     if request.method != "POST":
@@ -36,13 +37,51 @@ def create_post(request):
         return JsonResponse({"error": "Invalid form content"}, status=400)
 
 
-@decorators.login_required
+@login_required
+def follow_profile(request):
+    # Following someone must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    # Check for target profile ID and follow status.
+    # data.get('key') is used instead of dara['key'] to avoid key errors.
+    data = json.loads(request.body)
+    target_profile = data.get("target_profile")
+    follow_status = data.get("follow_status")
+    if target_profile is None or follow_status is None:
+        return JsonResponse({"error": "Incomplete submission"}, status=400)
+    
+    # Check if target profile exists
+    try:
+        target_profile = Post.objects.get(pk=target_profile.id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Profile does not exist."}, status=400)
+    
+    # Check if user does not own the post
+    if target_profile == request.user.profile:
+        return JsonResponse({"error": "Cannot follow yourself."}, status=400)
+
+    # Follow or Unfollow target_profile
+    if follow_status:
+        target_profile.followers.add(request.user.profile)
+        message = "Followed."
+    elif request.user.profile in target_profile.follower.all():
+        target_profile.followers.remove(request.user.profile)
+        message = "Unfollowed."
+    else:
+        message = "No changes."
+    
+    target_profile.save()
+    return JsonResponse({"message": message}, status=200)
+
+@login_required
 def like_post(request):
     # Liking a post must be via POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
     # Check for post ID and like status
+    # data.get('key') is used instead of dara['key'] to avoid key errors.
     data = json.loads(request.body)
     post_id = data.get("post_id")
     like_status = data.get("like_status")

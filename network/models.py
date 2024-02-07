@@ -12,10 +12,10 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         related_name='profile',
     )
-    following = models.ManyToManyField(
+    followers = models.ManyToManyField(
         "self",
         symmetrical=False, # Following someone does not mean that they also follow you
-        related_name='followers'
+        related_name='following'
     )
 
     def __str__(self):

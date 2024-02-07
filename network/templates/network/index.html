@@ -1,0 +1,11 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'create_post' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-outline-primary" type="submit">Post</button>
+        </form>
+    {% endif %}
+{% endblock %}

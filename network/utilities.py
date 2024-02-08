@@ -24,7 +24,7 @@ def check_json(raw_data) -> Tuple[Optional[dict], Optional[str]]:
     id = data.get('id')
     action = data.get('action')
     modifier = data.get('modifier')
-    content = data.get('content')
+    text = data.get('text')
     
     # Check if data contents are valid
     if not isinstance(id, int):
@@ -47,11 +47,11 @@ def check_json(raw_data) -> Tuple[Optional[dict], Optional[str]]:
 
     elif action == 'edit':
         model = Post
-        if not isinstance(content, str):
-            return None, 'Editing must contain the new post content'
-        if not content:
+        if not isinstance(text, str):
+            return None, 'Editing must contain the new post text'
+        if not text:
             return None, 'Edit must not be empty'
-        clean_data = {'content': content}
+        clean_data = {'text': text}
 
     else:
         return None, 'Invalid action'

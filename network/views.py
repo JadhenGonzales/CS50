@@ -39,29 +39,24 @@ def create_post(request):
 
 
 @login_required
-def edit_post(request, target_id):
+def edit_post(request):
     # Following someone must be via POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
-    # Check data for target_post ID and new_content
-    data = json.loads(request.body)
-    post_id = data.get("post_id")
-    new_content = data.get("new_content")
-    if post_id is None or new_content is None:
-        return JsonResponse({"error": "Incomplete submission"}, status=400)
+    # Check JSON data
+    clean_data, message = check_json(request.body)
+    if not clean_data:
+        return JsonResponse({"error": message}, status=400)
 
-    # Check if target post exists
-    try:
-        target_post = Post.objects.get(pk=post_id)
-    except Post.DoesNotExist:
-        return JsonResponse({"error": "Post does not exist."}, status=400)
+    target_post = clean_data['target']
+    new_text = clean_data['text']
     
     # Check if user owns the post
-    if target_post.owner == request.user.profile:
-        return JsonResponse({"error": "Cannot others posts."}, status=400)
+    if target_post.owner != request.user.profile:
+        return JsonResponse({"error": "Cannot edit others posts."}, status=400)
     
-    target_post.content = new_content
+    target_post.text = new_text
     target_post.save()
     return JsonResponse({"message": "Success"}, status=200)
 

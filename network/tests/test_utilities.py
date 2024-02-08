@@ -65,20 +65,33 @@ class check_json_test(TestCase):
         data = json.dumps({
             'id': self.post.id,
             'action': 'edit',
-            'content': 'new edits'
+            'text': 'new edits'
         })
 
         clean_data, message = check_json(data)
-        self.assertEqual((clean_data['target'], clean_data['content']), (self.post, 'new edits'))
+        self.assertEqual((clean_data['target'], clean_data['text']), (self.post, 'new edits'))
 
     def test_edit_content(self):
         """Test missing content for editing a post"""
         data = json.dumps({
             'id': self.post.id,
             'action': 'edit',
-            'content': None
+            'text': None
         })
 
         clean_data, message = check_json(data)
         self.assertEqual(clean_data, None)
+
+    def test_invalid_id(self):
+        # Get pk of last post item
+        last_post = Post.objects.order_by('pk').last()
+
+        data = json.dumps({
+            'id': last_post.id + 1,
+            'action': 'edit',
+            'text': 'new edits'
+        })
+
+        clean_data, message = check_json(data)
+        self.assertEqual((clean_data, message), (None, f'ID: {last_post.id + 1} not found'))
         

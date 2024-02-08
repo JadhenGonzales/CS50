@@ -57,7 +57,7 @@ class Follow_Profile_Test(TestCase):
       
     def test_unlike(self):
         """Test unfollowing an already liked profile."""
-        # Initialize already liked state
+        # Initialize already followed state
         self.profile1.followers.add(self.profile2)
         self.profile1.save()
 

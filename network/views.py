@@ -9,6 +9,7 @@ from django.urls import reverse
 
 from .models import User, Profile, Post
 from .forms import PostForm
+from .utilities import check_json
 
 
 def index(request):
@@ -38,6 +39,34 @@ def create_post(request):
 
 
 @login_required
+def edit_post(request, target_id):
+    # Following someone must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Check data for target_post ID and new_content
+    data = json.loads(request.body)
+    post_id = data.get("post_id")
+    new_content = data.get("new_content")
+    if post_id is None or new_content is None:
+        return JsonResponse({"error": "Incomplete submission"}, status=400)
+
+    # Check if target post exists
+    try:
+        target_post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post does not exist."}, status=400)
+    
+    # Check if user owns the post
+    if target_post.owner == request.user.profile:
+        return JsonResponse({"error": "Cannot others posts."}, status=400)
+    
+    target_post.content = new_content
+    target_post.save()
+    return JsonResponse({"message": "Success"}, status=200)
+
+
+@login_required
 def follow_profile(request):
     # Following someone must be via POST
     if request.method != "POST":
@@ -57,7 +86,7 @@ def follow_profile(request):
     except Profile.DoesNotExist:
         return JsonResponse({"error": "Profile does not exist."}, status=400)
     
-    # Check if user does not own the post
+    # Check if user does not own the profile
     if target_profile == request.user.profile:
         return JsonResponse({"error": "Cannot follow yourself."}, status=400)
 

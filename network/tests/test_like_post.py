@@ -20,16 +20,19 @@ class Like_Post_Test(TestCase):
         new_post.save()
         self.post_id = Post.objects.first().id
 
+        # Create request data
+        self.data = {
+            'post_id': self.post_id,
+            'like_status': True
+        }
+
+
     def test_like_post(self):
         """Test liking a post."""
 
         # Create request
         self.client.login(username='testuser2', password='12345@Test')
-        request_data = {
-            'post_id': self.post_id,
-            'like_status': True
-        }
-        request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
+        request = self.factory.post(reverse('like_post'), self.data, content_type='application/json')
         request.user = self.user2
         
         # Submit to like_post view and assert response
@@ -45,11 +48,7 @@ class Like_Post_Test(TestCase):
         
         # Create request
         self.client.login(username='testuser1', password='12345@Test')
-        request_data = {
-            'post_id': self.post_id,
-            'like_status': True
-        }
-        request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
+        request = self.factory.post(reverse('like_post'), self.data, content_type='application/json')
         request.user = self.user1
         
         # Submit to like_post view and assert response
@@ -71,8 +70,8 @@ class Like_Post_Test(TestCase):
         # Create request
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
-            "post_id": self.post_id,
-            "like_status": False
+            **self.data,
+            'like_status': False
         }
         request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
         request.user = self.user2
@@ -110,8 +109,8 @@ class Like_Post_Test(TestCase):
         # Create request
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
+            **self.data,
             'post_id': last_post.id + 1,
-            'like_status': True
         }
         request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
         request.user = self.user2

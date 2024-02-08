@@ -60,7 +60,7 @@ def check_json(raw_data) -> Tuple[Optional[dict], Optional[str]]:
     # Check ID validity
     try:
         target = model.objects.get(pk=id)
-    except Post.DoesNotExist:
+    except model.DoesNotExist:
         return None, f'ID: {id} not found'
     
     return {**clean_data, 'target':target}, None

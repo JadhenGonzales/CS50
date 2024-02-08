@@ -22,8 +22,9 @@ class Like_Post_Test(TestCase):
 
         # Create request data
         self.data = {
-            'post_id': self.post_id,
-            'like_status': True
+            'id': self.post_id,
+            'action': 'like',
+            'modifier': True
         }
 
 
@@ -71,7 +72,7 @@ class Like_Post_Test(TestCase):
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
             **self.data,
-            'like_status': False
+            'modifier': False
         }
         request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
         request.user = self.user2
@@ -110,7 +111,7 @@ class Like_Post_Test(TestCase):
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
             **self.data,
-            'post_id': last_post.id + 1,
+            'id': last_post.id + 1,
         }
         request = self.factory.post(reverse('like_post'), request_data, content_type='application/json')
         request.user = self.user2

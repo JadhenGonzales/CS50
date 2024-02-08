@@ -18,8 +18,9 @@ class Follow_Profile_Test(TestCase):
 
         # Create request data
         self.data = {
-            'profile_id': self.profile1.id,
-            'follow_status': True
+            'id': self.profile1.id,
+            'action': 'follow',
+            'modifier': True
         }
 
     def test_follow_profile(self):
@@ -64,7 +65,7 @@ class Follow_Profile_Test(TestCase):
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
             **self.data,
-            'follow_status': False
+            'modifier': False
         }
         request = self.factory.post(reverse('follow_profile'), request_data, content_type='application/json')
         request.user = self.user2
@@ -103,7 +104,7 @@ class Follow_Profile_Test(TestCase):
         self.client.login(username='testuser2', password='12345@Test')
         request_data = {
             **self.data,
-            'profile_id': last_profile.id + 1,
+            'id': last_profile.id + 1,
         }
         request = self.factory.post(reverse('follow_profile'), request_data, content_type='application/json')
         request.user = self.user2

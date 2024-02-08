@@ -72,26 +72,20 @@ def follow_profile(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     
-    # Check for target profile ID and follow status.
-    # data.get('key') is used instead of data['key'] to avoid key errors.
-    data = json.loads(request.body)
-    profile_id = data.get("profile_id")
-    follow_status = data.get("follow_status")
-    if profile_id is None or follow_status is None:
-        return JsonResponse({"error": "Incomplete submission"}, status=400)
-    
-    # Check if target profile exists
-    try:
-        target_profile = Profile.objects.get(pk=profile_id)
-    except Profile.DoesNotExist:
-        return JsonResponse({"error": "Profile does not exist."}, status=400)
+    # Check JSON data
+    clean_data, message = check_json(request.body)
+    if not clean_data:
+        return JsonResponse({"error": message}, status=400)
+
+    target_profile = clean_data['target']
+    follow = clean_data['modifier']
     
     # Check if user does not own the profile
     if target_profile == request.user.profile:
         return JsonResponse({"error": "Cannot follow yourself."}, status=400)
 
     # Follow or Unfollow target_profile
-    if follow_status:
+    if follow:
         target_profile.followers.add(request.user.profile)
         message = "Followed."
     elif request.user.profile in target_profile.followers.all():
@@ -109,26 +103,20 @@ def like_post(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
-    # Check for post ID and like status
-    # data.get('key') is used instead of data['key'] to avoid key errors.
-    data = json.loads(request.body)
-    post_id = data.get("post_id")
-    like_status = data.get("like_status")
-    if post_id is None or like_status is None:
-        return JsonResponse({"error": "Incomplete submission"}, status=400)
-    
-    # Check if target post exists
-    try:
-        target_post = Post.objects.get(pk=post_id)
-    except Post.DoesNotExist:
-        return JsonResponse({"error": "Post does not exist."}, status=400)
+    # Check JSON data
+    clean_data, message = check_json(request.body)
+    if not clean_data:
+        return JsonResponse({"error": message}, status=400)
+
+    target_post = clean_data['target']
+    like = clean_data['modifier']
     
     # Check if user does not own the post
     if target_post.owner == request.user.profile:
         return JsonResponse({"error": "Cannot like own post."}, status=400)
     
     # Like or Unlike post
-    if like_status:
+    if like:
         target_post.likes.add(request.user.profile)
         message = "Like added."
     elif request.user.profile in target_post.likes.all():

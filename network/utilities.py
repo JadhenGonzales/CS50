@@ -64,3 +64,4 @@ def check_json(raw_data) -> Tuple[Optional[dict], Optional[str]]:
         return None, f'ID: {id} not found'
     
     return {**clean_data, 'target':target}, None
+

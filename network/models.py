@@ -40,3 +40,12 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.owner}: {self.text}'
+    
+    # Custom serializer for converting into JSON
+    def serialize(self):
+        return {
+            "owner": self.owner.user.username,
+            "text": self.text,
+            "likes": self.likes.count(),
+            "datetime": self.datetime
+        }

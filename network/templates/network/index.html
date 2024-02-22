@@ -1,4 +1,9 @@
 {% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
 
 {% block body %}
     {% if request.user.is_authenticated %}
@@ -8,4 +13,6 @@
             <button class="btn btn-outline-primary" type="submit">Post</button>
         </form>
     {% endif %}
+
+    <div name="posts_container"></div>
 {% endblock %}

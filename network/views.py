@@ -177,28 +177,28 @@ def register(request):
         return render(request, 'network/register.html')
     
 
-def show_posts(request):
-    # Requesting posts must be via POST
-    if request.method != 'POST':
-        return JsonResponse({'error': 'POST request required.'}, status=400)
-    
-    # Get data from request
-    data = json.loads(request.body)
-    category = data.get('category')
-    page = data.get('page')
+def posts(request, category='all'):
+    if request.method == 'GET':
+        # Filter results based on category
+        match category:
+            
+            case 'own':
+                posts = Post.objects.filter(owner=request.user.profile).order_by('-datetime')
 
-    # Check data
-    if category not in ('own', 'following', 'all'):
-        return JsonResponse({'error': 'Invalid category'}, status=400)
-    
-    if category == 'own':
-        posts = Post.objects.filter(owner=request.user.profile).order_by('-datetime')
-    if category == 'following':
-        followed_profiles = request.user.profile.following.all()
-        posts = Post.objects.filter(owner__in=followed_profiles).order_by('-datetime')
-    if category == 'all':
-        posts = Post.objects.all().order_by('-datetime')
+            case 'following':
+                followed_profiles = request.user.profile.following.all()
+                posts = Post.objects.filter(owner__in=followed_profiles).order_by('-datetime')
 
-    paginated = Paginator(posts, 10)
+            case 'all':
+                posts = Post.objects.all().order_by('-datetime')
 
-    return paginated.get_page(page).object_list 
+            case _:
+                return HttpResponseRedirect(reverse('index'))
+
+        # Set page count to 10 posts and get page number from url parameters
+        paginated = Paginator(posts, 10)
+        page = request.GET.get('page', 1)
+
+        data = paginated.get_page(page).object_list
+
+        return JsonResponse([post.serialize() for post in data], safe=False)

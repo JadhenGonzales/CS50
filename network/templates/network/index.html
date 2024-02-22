@@ -1,0 +1,18 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'create_post' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-outline-primary" type="submit">Post</button>
+        </form>
+    {% endif %}
+
+    <div name="posts_container"></div>
+{% endblock %}
